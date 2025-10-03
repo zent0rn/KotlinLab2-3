@@ -47,11 +47,13 @@ fun busStation(block: BusStationDsl.() -> Unit): BusStation = BusStationDsl().ap
 
 // Операторы
 operator fun BusStation.unaryPlus(): BusStation = BusStation().apply {
-    trips.sortedBy { it.arrivalTime }.forEach { addTrip(it) }
+    // Сортировка по времени отправления (хронологический порядок)
+    this@unaryPlus.trips.sortedBy { it.departureTime }.forEach { addTrip(it) }
 }
 
 operator fun BusStation.unaryMinus(): BusStation = BusStation().apply {
-    trips.sortedByDescending { it.price }.forEach { addTrip(it) }
+    // Сортировка по цене (от самой дорогой к самой дешевой)
+    this@unaryMinus.trips.sortedByDescending { it.price }.forEach { addTrip(it) }
 }
 
 operator fun BusStation.not(): Boolean = trips.isEmpty()

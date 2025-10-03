@@ -1,6 +1,5 @@
 package bus_station.model
 
-import bus_station.model.BusTicket.BusTicketBuilder
 import java.time.LocalDateTime
 
 data class BusTicket(
@@ -24,13 +23,17 @@ data class BusTicket(
 
         fun build(): BusTicket {
             require(::trip.isInitialized) { "Рейс должен быть указан!" }
-            require(seatNumber in 1..trip.availableSeats) { "Некорректное число мест!" }
+            require(::passengerName.isInitialized) { "Имя пассажира должно быть указано!" }
+            require(::passengerDocument.isInitialized) { "Документ пассажира должен быть указан!" }
+            require(seatNumber in 1..trip.availableSeats) {
+                "Некорректный номер места! Должен быть от 1 до ${trip.availableSeats}"
+            }
+            require(finalPrice >= 0) { "Цена не может быть отрицательной!" }
+
             return BusTicket(id, trip, passengerName, passengerDocument, purchaseDate, seatNumber, finalPrice)
         }
     }
 }
-
-fun ticket(id: Int, block: BusTicketBuilder.() -> Unit): BusTicket = BusTicketBuilder(id).apply(block).build()
 
 infix fun BusTicket.withDocument(document: String): BusTicket =
     copy(passengerDocument = document)

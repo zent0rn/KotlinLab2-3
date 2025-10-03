@@ -70,6 +70,23 @@ fun main() {
 
     // Использование операторов
     println("\n------------- Сортировка -------------")
+    // Унарный плюс: сортировка по времени отправления
+    println("Сортировка по времени отправления (+station):")
+    val sortedByDeparture = +station
+    sortedByDeparture.trips.forEach { trip ->
+        println("${trip.departureTime.formatted} -> ${trip.destination}: ${trip.price} руб.")
+    }
+
+    // Унарный минус: сортировка по цене (от дорогих к дешевым)
+    println("\nСортировка по цене (от дорогих к дешевым) (-station):")
+    val sortedByPriceDesc = -station
+    sortedByPriceDesc.trips.forEach { trip ->
+        println("${trip.price} руб. -> ${trip.destination}")
+    }
+
+    // Оператор отрицания
+    println("\nСтанция пуста? ${!station}")
+
     println("Самый дешевый: ${station.trips.cheapest()?.price} руб.")
     println("Самый дорогой: ${station.trips.mostExpensive()?.price} руб.")
     println(
